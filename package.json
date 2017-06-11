@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "name": "optional-catch-binding-proposal",
+  "version": "0.0.0",
+  "description": "proposal for ECMAScript to allow omission of the catch binding",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/michaelficarra/optional-catch-binding-proposal.git"
+  },
+  "keywords": [
+    "ECMA-262",
+    "ECMAScript",
+    "Symbol",
+    "description",
+    "proposal"
+  ],
+  "author": "Michael Ficarra",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/michaelficarra/optional-catch-binding-proposal/issues"
+  },
+  "homepage": "https://github.com/michaelficarra/optional-catch-binding-proposal#readme",
+  "devDependencies": {
+    "ecmarkup": "3.11.2"
+  }
+}
