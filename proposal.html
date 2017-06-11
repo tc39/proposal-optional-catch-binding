@@ -20,3 +20,85 @@ location: https://github.com/michaelficarra/optional-catch-binding-proposal
 </emu-intro>
 
 
+<!-- es6num="13.15" -->
+<emu-clause id="sec-try-statement">
+  <h1>The `try` Statement</h1>
+  <h2>Syntax</h2>
+  <del class="block">
+    <emu-grammar>
+      TryStatement[Yield, Await, Return] :
+        `try` Block[?Yield, ?Await, ?Return] Catch[?Yield, ?Await, ?Return]
+        `try` Block[?Yield, ?Await, ?Return] Finally[?Yield, ?Await, ?Return]
+        `try` Block[?Yield, ?Await, ?Return] Catch[?Yield, ?Await, ?Return] Finally[?Yield, ?Await, ?Return]
+
+      Catch[Yield, Await, Return] :
+        `catch` `(` CatchParameter[?Yield, ?Await] `)` Block[?Yield, ?Await, ?Return]
+
+      Finally[Yield, Await, Return] :
+        `finally` Block[?Yield, ?Await, ?Return]
+
+      CatchParameter[Yield, Await] :
+        BindingIdentifier[?Yield, ?Await]
+        BindingPattern[?Yield, ?Await]
+    </emu-grammar>
+  </del>
+  <ins class="block">
+    <emu-grammar>
+      TryStatement[Yield, Await, Return] :
+        `try` Block[?Yield, ?Await, ?Return] Catch[?Yield, ?Await, ?Return]
+        `try` Block[?Yield, ?Await, ?Return] Finally[?Yield, ?Await, ?Return]
+        `try` Block[?Yield, ?Await, ?Return] Catch[?Yield, ?Await, ?Return] Finally[?Yield, ?Await, ?Return]
+
+      Catch[Yield, Await, Return] :
+        `catch` `(` CatchParameter[?Yield, ?Await] `)` Block[?Yield, ?Await, ?Return]
+        `catch` Block[?Yield, ?Await, ?Return]
+
+      Finally[Yield, Await, Return] :
+        `finally` Block[?Yield, ?Await, ?Return]
+
+      CatchParameter[Yield, Await] :
+        BindingIdentifier[?Yield, ?Await]
+        BindingPattern[?Yield, ?Await]
+    </emu-grammar>
+  </ins>
+  <emu-note>
+    <p>The `try` statement encloses a block of code in which an exceptional condition can occur, such as a runtime error or a `throw` statement. The `catch` clause provides the exception-handling code. When a catch clause catches an exception, its |CatchParameter| is bound to that exception.</p>
+  </emu-note>
+
+  <!-- es6num="13.15.7" -->
+  <emu-clause id="sec-runtime-semantics-catchclauseevaluation">
+    <h1>Runtime Semantics: CatchClauseEvaluation</h1>
+    <p>With parameter _thrownValue_.</p>
+    <emu-grammar>Catch : `catch` `(` CatchParameter `)` Block</emu-grammar>
+    <emu-alg>
+      1. Let _oldEnv_ be the running execution context's LexicalEnvironment.
+      1. Let _catchEnv_ be NewDeclarativeEnvironment(_oldEnv_).
+      1. Let _catchEnvRec_ be _catchEnv_'s EnvironmentRecord.
+      1. For each element _argName_ of the BoundNames of |CatchParameter|, do
+        1. Perform ! _catchEnvRec_.CreateMutableBinding(_argName_, *false*).
+      1. Set the running execution context's LexicalEnvironment to _catchEnv_.
+      1. Let _status_ be the result of performing BindingInitialization for |CatchParameter| passing _thrownValue_ and _catchEnv_ as arguments.
+      1. If _status_ is an abrupt completion, then
+        1. Set the running execution context's LexicalEnvironment to _oldEnv_.
+        1. Return Completion(_status_).
+      1. Let _B_ be the result of evaluating |Block|.
+      1. Set the running execution context's LexicalEnvironment to _oldEnv_.
+      1. Return Completion(_B_).
+    </emu-alg>
+    <ins class="block">
+      <emu-grammar>Catch : `catch` Block</emu-grammar>
+      <emu-alg>
+        1. Let _oldEnv_ be the running execution context's LexicalEnvironment.
+        1. Let _catchEnv_ be NewDeclarativeEnvironment(_oldEnv_).
+        1. Set the running execution context's LexicalEnvironment to _catchEnv_.
+        1. Let _B_ be the result of evaluating |Block|.
+        1. Set the running execution context's LexicalEnvironment to _oldEnv_.
+        1. Return Completion(_B_).
+      </emu-alg>
+    </ins>
+    <emu-note>
+      <p>No matter how control leaves the |Block| the LexicalEnvironment is always restored to its former state.</p>
+    </emu-note>
+  </emu-clause>
+</emu-clause>
+
