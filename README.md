@@ -1,1 +1,1 @@
-See [the proposal introduction](http://michaelficarra.github.io/optional-catch-binding-proposal) for more info.
+See [the proposal introduction](https://tc39.github.io/proposal-optional-catch-binding/) for more info.
