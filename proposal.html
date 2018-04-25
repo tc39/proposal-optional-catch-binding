@@ -88,12 +88,7 @@ location: https://github.com/michaelficarra/optional-catch-binding-proposal
     <ins class="block">
       <emu-grammar>Catch : `catch` Block</emu-grammar>
       <emu-alg>
-        1. Let _oldEnv_ be the running execution context's LexicalEnvironment.
-        1. Let _catchEnv_ be NewDeclarativeEnvironment(_oldEnv_).
-        1. Set the running execution context's LexicalEnvironment to _catchEnv_.
-        1. Let _B_ be the result of evaluating |Block|.
-        1. Set the running execution context's LexicalEnvironment to _oldEnv_.
-        1. Return Completion(_B_).
+        1. Return the result of evaluating |Block|.
       </emu-alg>
     </ins>
     <emu-note>
